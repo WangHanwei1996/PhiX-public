@@ -1,0 +1,38 @@
+{
+    // PFHub Benchmark 1b — spinodal decomposition, 200x200 no-flux
+    // solver: applications/solvers/Cahn-Hillard_double-well/2D
+    "mesh": {
+        "nx": 200, "dx": 1.0, "x0": 0.0,
+        "ny": 200, "dy": 1.0, "y0": 0.0
+    },
+
+    "initialize": {
+        "start_from": "initial_field",   // gen_initial_field.py 产物
+        "dt"    : 2.0e-3,                // 显式 CH 稳定极限 dx^4/(32*M*kappa) ≈ 3.1e-3
+        "nSteps": 500000                 // t_end = 1000
+    },
+
+    "boundary_conditions": {
+        "x_min": "NoFlux", "x_max": "NoFlux",
+        "y_min": "NoFlux", "y_max": "NoFlux"
+    },
+
+    "constants": {
+        "rho"  : 5.0,    // ρ_s
+        "ca"   : 0.3,
+        "cb"   : 0.7,
+        "kappa": 2.0,
+        "M"    : 5.0
+    },
+
+    "pfhub": {
+        "energy_interval": 2500,         // 每 t=5 记一行 F(t)
+        "csv": "free_energy.csv"
+    },
+
+    "output": {
+        "print_interval": 25000,
+        "write_interval": 100000,
+        "format"        : "VTS"
+    }
+}

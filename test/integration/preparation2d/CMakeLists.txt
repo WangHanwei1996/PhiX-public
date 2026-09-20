@@ -1,0 +1,5 @@
+add_executable(test_preparation2d preparation2d.cu)
+target_link_libraries(test_preparation2d PRIVATE phix)
+set_target_properties(test_preparation2d PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME integration_preparation2d_cpu COMMAND test_preparation2d --backend cpu)
+add_test(NAME integration_preparation2d_cuda COMMAND test_preparation2d --backend cuda)

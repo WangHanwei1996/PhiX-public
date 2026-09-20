@@ -1,0 +1,24 @@
+{
+    // Full benchmark verification: relax to the 120-degree static triple junction.
+    "mesh": {
+        "nx": 100, "ny": 200,
+        "dx": 1.0, "dy": 1.0,
+        "x0": 0.0, "y0": 0.0
+    },
+    "initialize": {
+        "start_from": "initial_field",
+        "ny_top": 20,
+        "dt"    : 0.001,
+        "nSteps": 200000
+    },
+    "constants": {
+        "gamma_0a": 1.0, "gamma_0b": 1.0, "gamma_ab": 1.0,
+        "ell": 8.0,
+        "L": 1.0
+    },
+    "output": {
+        "print_interval": 20000,
+        "write_interval": 100000,
+        "format"        : "DAT"
+    }
+}

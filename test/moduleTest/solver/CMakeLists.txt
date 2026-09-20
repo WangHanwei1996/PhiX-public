@@ -1,0 +1,34 @@
+add_executable(module_linsolve test_linsolve.cu)
+target_link_libraries(module_linsolve PRIVATE phix)
+set_target_properties(module_linsolve PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_linsolve COMMAND module_linsolve)
+
+add_executable(module_semiimplicit test_semiimplicit.cu)
+target_link_libraries(module_semiimplicit PRIVATE phix)
+set_target_properties(module_semiimplicit PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_semiimplicit COMMAND module_semiimplicit)
+
+add_executable(module_poisson test_poisson.cu)
+target_link_libraries(module_poisson PRIVATE phix)
+set_target_properties(module_poisson PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_poisson COMMAND module_poisson)
+
+add_executable(module_precond test_precond.cu)
+target_link_libraries(module_precond PRIVATE phix)
+set_target_properties(module_precond PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_precond COMMAND module_precond)
+
+add_executable(module_mg test_mg.cu)
+target_link_libraries(module_mg PRIVATE phix)
+set_target_properties(module_mg PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_mg COMMAND module_mg)
+
+add_executable(module_healthguard test_healthguard.cu)
+target_link_libraries(module_healthguard PRIVATE phix)
+set_target_properties(module_healthguard PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_healthguard COMMAND module_healthguard)
+
+add_executable(module_movingframe test_movingframe.cu)
+target_link_libraries(module_movingframe PRIVATE phix)
+set_target_properties(module_movingframe PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_movingframe COMMAND module_movingframe)

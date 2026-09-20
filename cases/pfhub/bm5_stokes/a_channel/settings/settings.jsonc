@@ -1,0 +1,33 @@
+{
+    // PFHub Benchmark 5a — Stokes 通道流（无障碍），LBM D2Q9
+    // solver: applications/solvers/LBM_channel/2D
+    "mesh": {
+        "nx": 300, "ny": 60,
+        "dx": 0.1,               // 格子间距 = 0.1 m → 域 30 x 6
+        "x0": 0.0, "y0": 0.0
+    },
+
+    "lbm": {
+        "dt"    : 0.1,           // 每格子步物理时间 → tau = 0.8
+        "nSteps": 200000,
+        "check_interval": 5000,  // 稳态残差检查间隔
+        "rho"   : 100.0,         // kg/m^3
+        "mu"    : 1.0,           // Pa s
+        "gx"    : 0.0,
+        "gy"    : 0.0            // 重力经静水压解析叠加（见 hydrostatic 节）
+    },
+
+    "inlet": {
+        "umax": 0.009            // u_x(0,y) = 0.009*(1-((y-3)/3)^2)
+    },
+
+    // 恒定体力在不可压缩流中被 p_h = rho*g·(r-r_ref) 精确平衡，
+    // 速度场不变；LBM 均匀密度出口与静水梯度不相容，故重力在输出端叠加
+    "hydrostatic": { "gx": 0.0, "gy": -0.001 },
+
+    "cuts": {
+        "x_cut": 7.0,  "x_csv": "cut_x7.csv",
+        "y_cut": 5.0,  "y_csv": "cut_y5.csv",
+        "p_ref_x": 30.0, "p_ref_y": 6.0    // p(30,6) = 0
+    }
+}

@@ -1,0 +1,34 @@
+{
+    // 1-D 瞬态扩散方程  ∂u/∂t = D ∂²u/∂x²
+    // 面心通量离散：faceGrad(u) → divFace(flux)
+    //
+    // 稳定性条件 (显式欧拉):  λ = D·dt/dx² ≤ 0.5
+    //   本设置: λ = 0.5 × 0.4 / 1.0² = 0.20  ✓
+
+    "mesh": {
+        "nx": 64,       // 格点数
+        "dx": 1.0,      // 格距 (无量纲)
+        "x0": 0.0       // 原点
+    },
+
+    "initialize": {
+        "start_from": "initial_field",  // "initial_field" 或整数时间步
+        "dt"        : 0.4,              // 时间步 (Fourier 数 λ = 0.20)
+        "nSteps"    : 2000              // 总步数  →  t_end = 800
+    },
+
+    "boundary_conditions": {
+        "x_min": "Periodic",
+        "x_max": "Periodic"
+    },
+
+    "constants": {
+        "D": 0.5        // 扩散系数
+    },
+
+    "output": {
+        "print_interval": 200,          // 控制台打印间隔
+        "write_interval": 200,          // 文件输出间隔
+        "format"        : "ALL"         // "BINARY" | "DAT" | "VTK" | "ALL"
+    }
+}

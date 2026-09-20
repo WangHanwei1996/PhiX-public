@@ -1,0 +1,9 @@
+add_executable(module_perf test_perf.cu)
+target_link_libraries(module_perf PRIVATE phix)
+set_target_properties(module_perf PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_perf COMMAND module_perf)
+
+add_executable(module_divfa_perf test_divfa_perf.cu)
+target_link_libraries(module_divfa_perf PRIVATE phix)
+set_target_properties(module_divfa_perf PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_divfa_perf COMMAND module_divfa_perf)

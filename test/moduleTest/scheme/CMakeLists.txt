@@ -1,0 +1,14 @@
+add_executable(module_scheme test_scheme.cu)
+target_link_libraries(module_scheme PRIVATE phix)
+set_target_properties(module_scheme PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_scheme COMMAND module_scheme)
+
+add_executable(module_schemes test_schemes.cu)
+target_link_libraries(module_schemes PRIVATE phix)
+set_target_properties(module_schemes PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_schemes COMMAND module_schemes)
+
+add_executable(module_scheme_catalog test_catalog.cu)
+target_link_libraries(module_scheme_catalog PRIVATE phix)
+set_target_properties(module_scheme_catalog PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_scheme_catalog COMMAND module_scheme_catalog)

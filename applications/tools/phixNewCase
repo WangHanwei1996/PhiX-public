@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# phixNewCase — scaffold a run-case directory for an existing solver.
+# (OpenFOAM analogue: copying a tutorial case; complements makePhi/newSolver
+#  which scaffold the SOLVER build, this scaffolds the CASE.)
+#
+#   phixNewCase <caseName>
+#
+# Creates:
+#   <caseName>/settings/settings.jsonc      minimal config template
+#   <caseName>/gen_initial_field.py         initial-field generator stub
+#   <caseName>/output/                      (gitignored output target)
+# ---------------------------------------------------------------------------
+set -eu
+
+[ $# -ge 1 ] || { echo "usage: phixNewCase <caseName>"; exit 1; }
+case_dir="$1"
+[ ! -e "$case_dir" ] || { echo "phixNewCase: '$case_dir' already exists"; exit 1; }
+
+mkdir -p "$case_dir/settings" "$case_dir/output"
+
+cat > "$case_dir/settings/settings.jsonc" <<'EOF'
+// PhiX case settings (JSONC — // comments allowed)
+// Run the solver from the case directory:  <solver> settings/settings.jsonc
+{
+    "mesh": {
+        "nx": 256, "ny": 256,
+        "dx": 1.0e-9, "dy": 1.0e-9,     // metres
+        "x0": 0.0,   "y0": 0.0
+    },
+
+    "time": {
+        "dt": 1.0e-9,
+        "n_steps": 100000,
+        "start_from": 0                  // >0: warm restart from output/
+    },
+
+    "constants": {
+        // model parameters — read via cfg["constants"]["..."]
+        "M":     1.0,
+        "kappa": 1.0e-2
+    },
+
+    "output": {
+        "format": "VTK",                 // BINARY | DAT | VTK | ALL
+        "write_interval": 5000,
+        "print_interval": 500,
+        "coord_scale": 1.0e9             // VTS coordinates in nm
+    }
+}
+EOF
+
+cat > "$case_dir/gen_initial_field.py" <<'EOF'
+#!/usr/bin/env python3
+"""Generate initial .field files for this case (edit to taste).
+
+Writes settings/initial_field/<name>.field in the PhiX binary format;
+pair with IO::resolveStartStep / initField in the solver.
+"""
+import os
+import struct
+
+import numpy as np
+
+NX, NY = 256, 256
+
+
+def write_field(path, name, arr):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "wb") as fh:
+        fh.write(b"# PhiX ScalarField\n")
+        fh.write(f"name    {name}\n".encode())
+        fh.write(f"nx {arr.shape[1]}  ny {arr.shape[0]}  nz 1\n".encode())
+        fh.write(b"ghost   1\n---\n")
+        fh.write(arr.astype("<f8").tobytes())
+
+
+if __name__ == "__main__":
+    x = (np.arange(NX) + 0.5) / NX
+    y = (np.arange(NY) + 0.5) / NY
+    X, Y = np.meshgrid(x, y)
+    phi = 0.5 * (1.0 - np.tanh(((X - 0.5) ** 2 + (Y - 0.5) ** 2) ** 0.5
+                               / 0.05 - 2.0))
+    write_field("settings/initial_field/phi.field", "phi", phi)
+    print("wrote settings/initial_field/phi.field")
+EOF
+chmod +x "$case_dir/gen_initial_field.py"
+
+echo "phixNewCase: created $case_dir/"
+find "$case_dir" -type f | sed 's/^/  /'

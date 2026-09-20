@@ -1,0 +1,33 @@
+// settings.jsonc — diffusion_compare (staggered vs. collocated)
+{
+    // Mesh: 80 cells, dx=1.0, origin at 0 (matches the reference notebook)
+    "mesh": {
+        "nx": 80,
+        "dx": 1.0,
+        "x0": 0.0
+    },
+
+    // Time integration
+    // dt=0.4: Fourier number λ = D·dt/dx² = 0.5·0.4 = 0.2 < 0.5 (stable)
+    // nSteps=500 corresponds to T=200 (checker mode fully gone by ~T=30)
+    "initialize": {
+        "start_from": "initial_field",
+        "dt": 0.4,
+        "nSteps": 500
+    },
+
+    "boundary_conditions": {
+        "x_min": "Periodic",
+        "x_max": "Periodic"
+    },
+
+    "constants": {
+        "D": 0.5
+    },
+
+    "output": {
+        "print_interval": 50,
+        "write_interval": 50,
+        "format": "ALL"
+    }
+}

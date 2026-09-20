@@ -1,0 +1,33 @@
+# OpenPhase-idiom BM1a CPU timings — AMD Ryzen 9 9950X3D (16C/32T, WSL2), g++ -O3 -march=native -fopenmp
+# grid,threads,steps,dt,wall_s,cell_updates_per_s
+200,1,5000,1e-3,1.31,1.532e8
+200,8,50000,1e-3,2.73,7.321e8
+200,16,50000,1e-3,3.38,5.915e8
+200,24,50000,1e-3,4.66,4.288e8
+200,32,50000,1e-3,55.14,3.627e7
+512,8,50000,1e-3,17.51,7.486e8
+512,16,50000,1e-3,18.82,6.965e8
+512,24,50000,1e-3,20.95,6.258e8
+512,32,50000,1e-3,100.52,1.304e8
+# best CPU: 8 threads (SMT and >8T hurt at these sizes); F(t) decay + <c> conservation verified
+# PhiX GPU counterpart: same case via applications/solvers/Cahn-Hillard_double-well (BM1 config),
+# to be timed on an idle GPU after the W6 cooling ladder completes.
+# --- appended 2026-08-25 (paper ch7 restructure; machine ~idle, load 0.67/32T) ---
+512,1,50000,1e-3,88.25,1.485e8
+200,1,50000,1e-3,13.49,1.483e8
+# 8T same-day recheck: 512,8,50000,1e-3,19.74,6.639e8  (July best 17.51 s kept above)
+# result agreement vs PhiX (bm1_energy.csv): F(t=50) = 1069.410836 vs 1069.41083577 (9 s.f.);
+# <c> = 0.50253911 both sides, conserved exactly.
+# --- appended 2026-08-25 evening (large-grid extension; machine ~idle) ---
+1024,1,20000,1e-3,142.32,1.474e8
+1024,8,20000,1e-3,28.23,7.430e8
+1024,16,20000,1e-3,18.65,1.125e9
+1024,24,20000,1e-3,13.34,1.572e9
+1024,32,20000,1e-3,15.75,1.331e9
+2048,1,5000,1e-3,142.18,1.475e8
+2048,8,5000,1e-3,24.43,8.584e8
+2048,16,5000,1e-3,18.35,1.143e9
+2048,24,5000,1e-3,13.13,1.597e9
+2048,32,5000,1e-3,14.23,1.474e9
+# best threads: 8T at 200^2/512^2, 24T at 1024^2/2048^2 (DDR5 saturation ~64 GB/s at 40 B/cell-update)
+# F identity vs PhiX (c_init=""): 1024^2 F(t=20)=5357.908972, 2048^2 F(t=5)=33243.849358 - 9 s.f. both

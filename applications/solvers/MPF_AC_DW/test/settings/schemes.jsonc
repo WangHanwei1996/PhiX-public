@@ -1,0 +1,11 @@
+// settings/schemes.jsonc — 本算例的数值格式(OpenFOAM fvSchemes 的对应物; JSON + // 注释)
+//
+//   每一节: "default" 是该算子的整体缺省; "算子(场名)" 按项覆盖, 场名 = 源码里 ScalarField 的名字.
+//   解析顺序: 按项键 → 本节 default → 求解器内建缺省 → CD2 / UW1 / EULER.
+//   缺少此文件不报错(回落求解器内建缺省, 即下面这份); 写错的按项键在启动时给 [PhiX] WARNING.
+//   可选值:  ddt = EULER | RK4      laplacian = CD2 | CD4 | CD6 | Iso9 | Iso27   (CD4/CD6 需 ghost ≥ 2/3)
+//            gradient = CD2 | CD4 | CD6 | Iso9      gradSq = CD2 | Iso9      advection = UW1 | UW2 | WENO5
+//            anisoDiv = CD2 | Iso9                  (Iso9 系列要求 dx == dy)
+{
+    "ddt" : { "default": "EULER" }   // 全部 RHS 为 fused kernel, 只接受 EULER(填 RK4 会在启动时报错)
+}

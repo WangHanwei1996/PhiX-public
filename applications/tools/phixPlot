@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+# ---------------------------------------------------------------------------
+# phixPlot — quick-look a PhiX .field file, or diff two of them.
+# (OpenFOAM analogue: a lightweight paraFoam substitute for sanity checks)
+#
+#   phixPlot phi_100.field              2D → heatmap PNG, 1D → line PNG
+#                                       (written next to the input)
+#   phixPlot a.field b.field --diff     max/L2 difference (regression aid)
+#
+# matplotlib is optional: without it the tool falls back to printing stats.
+# ---------------------------------------------------------------------------
+import math
+import os
+import struct
+import sys
+
+
+def read_field(path):
+    with open(path, "rb") as fh:
+        nx = ny = nz = 1
+        name = "?"
+        while True:
+            line = fh.readline().decode("ascii", errors="replace")
+            if not line:
+                raise ValueError(f"{path}: unexpected EOF in header")
+            if line.strip() == "---":
+                break
+            parts = line.split()
+            if parts and parts[0] == "name" and len(parts) > 1:
+                name = parts[1]
+            elif parts and parts[0] == "nx":
+                nx, ny, nz = int(parts[1]), int(parts[3]), int(parts[5])
+        n = nx * ny * nz
+        data = struct.unpack(f"<{n}d", fh.read(8 * n))
+    return name, (nx, ny, nz), data
+
+
+def diff(pa, pb):
+    _, dims_a, a = read_field(pa)
+    _, dims_b, b = read_field(pb)
+    if dims_a != dims_b:
+        print(f"grids differ: {dims_a} vs {dims_b}")
+        return 1
+    mx = 0.0
+    s2 = 0.0
+    for x, y in zip(a, b):
+        d = abs(x - y)
+        mx = max(mx, d)
+        s2 += d * d
+    l2 = math.sqrt(s2 / len(a))
+    scale = max(max(abs(v) for v in a), 1e-300)
+    print(f"max|a-b| = {mx:.6g}   L2 = {l2:.6g}   rel(max) = {mx / scale:.6g}")
+    return 0
+
+
+def plot(path):
+    name, (nx, ny, nz), data = read_field(path)
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("matplotlib not available — stats only:")
+        print(f"  {name}  {nx}x{ny}x{nz}  min {min(data):.6g} "
+              f"max {max(data):.6g}")
+        return 0
+
+    out = os.path.splitext(path)[0] + ".png"
+    if ny == 1 and nz == 1:                       # 1D
+        plt.figure(figsize=(7, 3.2))
+        plt.plot(range(nx), data, lw=1.2)
+        plt.xlabel("i")
+        plt.ylabel(name)
+        plt.title(os.path.basename(path))
+        plt.tight_layout()
+    elif nz == 1:                                 # 2D
+        img = [data[j * nx:(j + 1) * nx] for j in range(ny)]
+        plt.figure(figsize=(6, 5))
+        plt.imshow(img, origin="lower", aspect="equal")
+        plt.colorbar(label=name)
+        plt.title(os.path.basename(path))
+        plt.tight_layout()
+    else:                                         # 3D: mid-z slice
+        k = nz // 2
+        sl = data[k * nx * ny:(k + 1) * nx * ny]
+        img = [sl[j * nx:(j + 1) * nx] for j in range(ny)]
+        plt.figure(figsize=(6, 5))
+        plt.imshow(img, origin="lower", aspect="equal")
+        plt.colorbar(label=name)
+        plt.title(f"{os.path.basename(path)}  (z-slice {k})")
+        plt.tight_layout()
+    plt.savefig(out, dpi=140)
+    print(f"wrote {out}")
+    return 0
+
+
+def main(argv):
+    if not argv or argv[0] in ("-h", "--help"):
+        print(__doc__ or "phixPlot <file.field> | phixPlot a b --diff")
+        return 0
+    if "--diff" in argv:
+        files = [a for a in argv if a != "--diff"]
+        if len(files) != 2:
+            print("usage: phixPlot a.field b.field --diff")
+            return 1
+        return diff(files[0], files[1])
+    rc = 0
+    for p in argv:
+        rc |= plot(p)
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

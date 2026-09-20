@@ -1,0 +1,11 @@
+{
+    "mesh": { "nx": 1024, "ny": 1024, "dx": 1.0, "dy": 1.0, "x0": 0.0, "y0": 0.0 },
+    "initialize": { "start_from": "initial_field", "c_init": "", "dt": 0.001, "nSteps": 80000 },
+    "boundary_conditions": { "x_min": "Periodic", "x_max": "Periodic",
+                              "y_min": "Periodic", "y_max": "Periodic" },
+    "constants": { "rho": 5.0, "ca": 0.3, "cb": 0.7, "kappa": 2.0, "M": 5.0 },
+    "output": { "print_interval": 80000, "write_interval": 80000,
+                 "format": "DAT" },
+    "pfhub": { "energy_interval": 20000, "csv": "output/bm1_energy.csv",
+                "benchmark": "1a" }
+}

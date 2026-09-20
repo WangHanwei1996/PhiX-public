@@ -1,0 +1,2 @@
+add_subdirectory(diffusion_1D)
+add_subdirectory(twomesh_coupling)

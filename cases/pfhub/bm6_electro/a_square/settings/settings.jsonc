@@ -1,0 +1,43 @@
+{
+    // PFHub Benchmark 6a — 电化学（CH + Poisson 静电），[0,100]^2
+    // solver: applications/solvers/CH_Poisson_electro/2D
+    "mesh": {
+        "nx": 128, "dx": 0.78125, "x0": 0.0,
+        "ny": 128, "dy": 0.78125, "y0": 0.0
+    },
+
+    "initialize": {
+        "start_from": "initial_field",
+        "dt"    : 8.0e-4,        // 显式 CH 极限 dx^4/(32*M*kappa) ≈ 1.2e-3
+        "nSteps": 500000         // t_end = 400
+    },
+
+    "boundary_conditions": {
+        // c 全边无通量; Phi 的 BC 在求解器内固定（左 0 / 右 sin(y/7) / 上下 Neumann）
+        "x_min": "NoFlux", "x_max": "NoFlux",
+        "y_min": "NoFlux", "y_max": "NoFlux"
+    },
+
+    "constants": {
+        "rho"    : 5.0,
+        "ca"     : 0.3,
+        "cb"     : 0.7,
+        "kappa"  : 2.0,
+        "M"      : 5.0,
+        "k"      : 0.09,
+        "epsilon": 90.0
+    },
+
+    "pfhub": {
+        "energy_interval": 2500,     // 每 t=2 一行
+        "csv"  : "free_energy.csv",
+        "x_cut": 50.0, "x_csv": "cut_x50.csv",
+        "y_cut": 50.0, "y_csv": "cut_y50.csv"
+    },
+
+    "output": {
+        "print_interval": 50000,
+        "write_interval": 250000,
+        "format"        : "VTS"
+    }
+}

@@ -1,0 +1,4 @@
+add_executable(module_elasticity test_elasticity.cu)
+target_link_libraries(module_elasticity PRIVATE phix)
+set_target_properties(module_elasticity PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_elasticity COMMAND module_elasticity)

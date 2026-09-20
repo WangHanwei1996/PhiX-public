@@ -1,0 +1,40 @@
+{
+    // Cahn-Hilliard double-well spinodal decomposition — default config.
+    // Run from this solver's 2D/ directory:
+    //   ./Cahn-Hillard_double-well settings/settings.jsonc
+
+    "mesh": {
+        "nx": 200,   "ny": 200,   // grid points
+        "dx": 1.0,   "dy": 1.0,   // spacing
+        "x0": 0.0,   "y0": 0.0    // origin
+    },
+
+    "initialize": {
+        "start_from": "initial_field",     // "initial_field" = cold start; "<step>" = restart from output/
+        "c_init"    : "random:0.45:0.55",  // named init (uniform/random/linear); "" = read settings/initial_field/c.field
+        "dt"        : 0.001,
+        "nSteps"    : 50000
+    },
+
+    "boundary_conditions": {
+        "x_min": "Periodic",
+        "x_max": "Periodic",
+        "y_min": "Periodic",
+        "y_max": "Periodic"
+    },
+
+    "constants": {
+        "M"    : 5.0,    // mobility
+        "kappa": 2.0,    // gradient energy coefficient
+        "rho"  : 5.0,    // double-well height
+        "ca"   : 0.3,    // well positions
+        "cb"   : 0.7
+    },
+
+    "output": {
+        "print_interval": 1000,
+        "write_interval": 10000,
+        "format"        : "BINARY+VTI" // "BINARY" | "DAT" | "VTI" | "VTK"/"VTS"(ASCII, 慢, 不推荐) | "VTK_BIN" | "ALL"；可用 "+" 组合
+                                       //   BINARY 供续算；VTI 供 ParaView
+    }
+}

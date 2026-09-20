@@ -1,0 +1,49 @@
+add_executable(module_operators test_operators.cu)
+target_link_libraries(module_operators PRIVATE phix)
+set_target_properties(module_operators PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_operators COMMAND module_operators)
+
+add_executable(module_face_ops test_face_ops.cu)
+target_link_libraries(module_face_ops PRIVATE phix)
+set_target_properties(module_face_ops PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_face_ops COMMAND module_face_ops)
+
+add_executable(module_face_pw test_face_pw.cu)
+target_link_libraries(module_face_pw PRIVATE phix)
+set_target_properties(module_face_pw PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_face_pw COMMAND module_face_pw)
+
+add_executable(module_schemes_ext test_schemes_ext.cu)
+target_link_libraries(module_schemes_ext PRIVATE phix)
+set_target_properties(module_schemes_ext PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_schemes_ext COMMAND module_schemes_ext)
+
+add_executable(module_anisotropy test_anisotropy.cu)
+target_link_libraries(module_anisotropy PRIVATE phix)
+set_target_properties(module_anisotropy PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_anisotropy COMMAND module_anisotropy)
+
+add_executable(module_anisotropy3d test_anisotropy3d.cu)
+target_link_libraries(module_anisotropy3d PRIVATE phix)
+set_target_properties(module_anisotropy3d PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_anisotropy3d COMMAND module_anisotropy3d)
+
+add_executable(module_divfa test_divfa.cu)
+target_link_libraries(module_divfa PRIVATE phix)
+set_target_properties(module_divfa PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_divfa COMMAND module_divfa)
+
+add_executable(module_aniso_iso9 test_aniso_iso9.cu)
+target_link_libraries(module_aniso_iso9 PRIVATE phix)
+set_target_properties(module_aniso_iso9 PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_aniso_iso9 COMMAND module_aniso_iso9)
+
+add_executable(module_aniso_thetafield test_aniso_thetafield.cu)
+target_link_libraries(module_aniso_thetafield PRIVATE phix)
+set_target_properties(module_aniso_thetafield PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_aniso_thetafield COMMAND module_aniso_thetafield)
+
+add_executable(module_gradsq test_gradsq.cu)
+target_link_libraries(module_gradsq PRIVATE phix)
+set_target_properties(module_gradsq PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_gradsq COMMAND module_gradsq)

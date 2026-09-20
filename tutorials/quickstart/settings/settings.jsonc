@@ -1,0 +1,32 @@
+{
+    // PhiX quickstart — 2D Allen-Cahn.  Run from tutorials/quickstart/:
+    //   ./quickstart                      (= ./quickstart settings/settings.jsonc)
+    // Every key is required; a missing key is a ConfigError naming its path.
+
+    "mesh": {
+        "nx": 256,  "ny": 256,           // cells
+        "dx": 0.5,  "dy": 0.5            // spacing → domain [0,128]²
+    },
+
+    "initialize": {
+        "phi_init": "random:-0.05:0.05", // uniform:<v> | random:<lo>:<hi> | linear:x|y:<lo>:<hi>
+        "dt"      : 0.01,
+        "nSteps"  : 10000                // → t = 100
+    },
+
+    "boundary_conditions": {             // "Periodic" | "NoFlux" | "Fixed" | {"type": "Fixed", "value": v}
+        "x_min": "Periodic",  "x_max": "Periodic",   // Periodic must be set on both sides of an axis
+        "y_min": "Periodic",  "y_max": "Periodic"
+    },
+
+    "constants": {
+        "M": 1.0                         // mobility
+    },
+
+    "output": {
+        "print_interval": 1000,          // [progress] line every N steps
+        "write_interval": 500,           // field files every N steps
+        "format"        : "BINARY+VTI"   // BINARY = phi_<step>.field (full precision);
+                                         // VTI = phi_<step>.vti + phi.pvd (ParaView)
+    }
+}

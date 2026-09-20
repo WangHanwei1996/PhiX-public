@@ -1,0 +1,44 @@
+# build trees
+build*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+*.o
+*.a
+
+# binaries written beside their sources (RUNTIME_OUTPUT_DIRECTORY) and run output
+tutorials/quickstart/quickstart
+tutorials/quickstart/output/
+applications/solvers/Cahn-Hillard_double-well/2D/CH_2D
+applications/solvers/Cahn-Hillard_double-well/2D/Cahn-Hillard_double-well
+applications/solvers/CH_4AC_Ostwald/2D/CH_4AC_Ostwald
+applications/solvers/CH_elastic_precipitate/2D/CH_elastic_precipitate
+applications/solvers/LBM_channel/2D/LBM_channel
+applications/solvers/CH_Poisson_electro/2D/CH_Poisson_electro
+applications/solvers/MPF_AC_DW/MPF_AC_DW
+applications/solvers/dendrite_growth/2D/dendrite_growth
+applications/solvers/**/output/
+test/sampleTest/diffusion_1D/diffusion_1D
+test/sampleTest/diffusion_1D/diffusion_compare
+test/sampleTest/twomesh_coupling/twomesh_coupling
+
+# stand-alone case programs built by nvcc / build.sh (sources are *.cu)
+cases/paper_benchmarks/bench_*
+!cases/paper_benchmarks/bench_*.cu
+cases/showcase_anisotropy/aniso_dendrite
+cases/general_fd/advection/rotating_scalar
+cases/general_fd/reaction_diffusion/gray_scott
+cases/general_fd/reaction_diffusion/rd_mms
+cases/openphase_bench/multijunction2d/multijunction2d
+cases/openphase_bench/singlegrain3d/singlegrain3d
+
+# python / editor / OS
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.swp
+*~
+*Zone.Identifier
+.vscode/

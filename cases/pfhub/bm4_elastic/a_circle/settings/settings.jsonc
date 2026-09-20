@@ -1,0 +1,41 @@
+{
+    // PFHub Benchmark 4a — 错配析出相（CH + FFT 弹性，均匀模量）
+    // solver: applications/solvers/CH_elastic_precipitate/2D
+    "mesh": {
+        "nx": 400, "dx": 1.0, "x0": 0.0,
+        "ny": 400, "dy": 1.0, "y0": 0.0
+    },
+
+    "initialize": {
+        "start_from": "initial_field",   // gen_initial_field.py: r=20 圆核
+        "dt"    : 0.005,                 // 显式极限 min(dx^4/(32Mκ), 化学) ≈ 0.013
+        "nSteps": 100000                 // t_end = 500
+    },
+
+    "boundary_conditions": {
+        // FFT 力学要求周期；域取析出相 20 倍半径，镜像作用可忽略
+        "x_min": "Periodic", "x_max": "Periodic",
+        "y_min": "Periodic", "y_max": "Periodic"
+    },
+
+    "constants": {
+        "w"     : 0.1,      // aJ/nm^3 阱高（乘 10 阶双阱多项式）
+        "kappa" : 0.29,     // aJ/nm
+        "M"     : 5.0,
+        "eps_T" : 0.005,    // 0.5% 膨胀错配
+        "C11"   : 250.0,    // aJ/nm^3 (= GPa)
+        "C12"   : 150.0,
+        "C44"   : 100.0
+    },
+
+    "pfhub": {
+        "energy_interval": 1000,          // 每 t=5 一行
+        "csv": "bm4_data.csv"
+    },
+
+    "output": {
+        "print_interval": 20000,
+        "write_interval": 50000,
+        "format"        : "VTS"
+    }
+}

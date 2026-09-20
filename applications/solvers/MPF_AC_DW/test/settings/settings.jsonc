@@ -1,0 +1,56 @@
+{
+    // =========================================================================
+    // MPF_AC_DW — Static triple junction benchmark (2D)  [double-well, grad2]
+    //
+    // Three phases: phi0 (invades from top), phi_a (left), phi_b (right).
+    // IC: top ny_top rows → phi0=1; lower left → phi_a=1; lower right → phi_b=1.
+    // BCs: top/bottom Neumann; left/right non-uniform Dirichlet (frozen ghost).
+    //
+    // Domain: W=100 × H=200 cells, dx = dy = 1
+    // Interface width: ℓ = 8  (= 8*dx)
+    //
+    // Free energy: pairwise double-well + grad2 gradient energy
+    //   ε²_ij = (3/2) γ_ij ℓ = 1.5 × 1.0 × 8 = 12.0
+    //   W_ij  = 12 γ_ij / ℓ  = 12 / 8 = 1.5
+    //
+    // Pairwise Allen-Cahn mobility: L (equal for all pairs)
+    //
+    // Stability (explicit Euler): dt_max ~ dx² / (4 L ε²_max) = 1/(4×1×12) ≈ 0.021
+    //   grad2 非线性项使实际稳定阈值更低，使用 dt=0.001 保守取值。
+    //   t_end=2000 → nSteps=2000000
+    // =========================================================================
+
+    "mesh": {
+        "nx": 100,
+        "ny": 200,
+        "dx": 1.0,
+        "dy": 1.0,
+        "x0": 0.0,
+        "y0": 0.0
+    },
+
+    "initialize": {
+        "start_from": "initial_field",
+        "ny_top": 20,
+
+        "dt"    : 0.001,
+
+        "nSteps": 200000
+    },
+
+    "constants": {
+        "gamma_0a": 1.0,
+        "gamma_0b": 1.0,
+        "gamma_ab": 1.0,
+
+        "ell": 8.0,
+
+        "L": 1.0
+    },
+
+    "output": {
+        "print_interval": 1000,
+        "write_interval": 20000,
+        "format"        : "BINARY+VTI"     // "BINARY" | "DAT" | "VTI" | "VTK"/"VTS"(ASCII, 慢, 不推荐) | "VTK_BIN" | "ALL"；可用 "+" 组合
+    }
+}

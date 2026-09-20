@@ -1,0 +1,41 @@
+{
+    // PFHub Benchmark 3 — dendritic growth (Karma-Rappel thin-interface)
+    // solver: applications/solvers/dendrite_growth/2D  （直接复用，加 pfhub 输出）
+    // 域 960x960 W_0，四分之一枝晶（角点种子 + NoFlux 对称）
+    "mesh": {
+        "nx": 1200, "dx": 0.8, "x0": 0.0,
+        "ny": 1200, "dy": 0.8, "y0": 0.0
+    },
+
+    "initialize": {
+        "start_from": "initial_field",   // gen_ic.py: tanh 种子 R=8, U=-0.3
+        "dt"    : 0.008,                 // U 方程稳定极限 dx^2/(4D) = 0.016 的一半
+        "nSteps": 187500                 // t_end = 1500
+    },
+
+    "constants": {
+        "D"        : 10.0,
+        "tau_0"    : 1.0,
+        "W_0"      : 1.0,
+        "epsilon_m": 0.05,               // 4 重各向异性强度
+        "m"        : 4.0,
+        "theta_0"  : 0.0
+        // lambda = D*tau_0/(0.6267*W_0^2) ≈ 15.957 由求解器推导
+    },
+
+    "boundary_conditions": {
+        "x_min": "NoFlux", "x_max": "NoFlux",
+        "y_min": "NoFlux", "y_max": "NoFlux"
+    },
+
+    "pfhub": {
+        "energy_interval": 625,          // 每 t=5: time, solid_fraction, F, tip_x
+        "csv": "bm3_data.csv"
+    },
+
+    "output": {
+        "print_interval": 25000,
+        "write_interval": 93750,
+        "format"        : "VTS"
+    }
+}

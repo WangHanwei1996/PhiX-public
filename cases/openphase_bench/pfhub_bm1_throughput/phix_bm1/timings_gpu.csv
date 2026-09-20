@@ -1,0 +1,15 @@
+# PhiX BM1a GPU timings — RTX 5080 (WSL2), wall incl. solver startup + ASCII IO
+grid,steps,dt,wall_s,cell_updates_per_s,note
+200,50000,1e-3,3.40,5.885e8,startup-dominated at this size
+512,50000,1e-3,3.80,3.451e9,compute-bound
+512,200000,1e-3,15.01,3.494e9,compute-bound (startup amortized -> true rate)
+# fair cross-code: GPU 512^2 = 3.5e9 vs CPU(8T) 512^2 = 7.3e8 -> ~4.8x
+# BM1 is bandwidth-bound single-field; heavier 3-field CALPHAD solver shows larger GPU advantage
+# --- appended 2026-08-25 evening (large grids; cosine IC via "c_init": "" - REQUIRED since
+#     solver source 2026-07-23 changed the default to random:0.45:0.55; July configs predate) ---
+1024,20000,1e-3,5.54,amortized,see_below
+2048,5000,1e-3,10.26,amortized,see_below
+# amortized rates (delta work / delta wall between short and long runs, 3 repeats):
+# 1024^2 (20k vs 80k steps): 5.54e9 / 6.26e9 / 6.13e9 c-u/s
+# 2048^2 (5k vs 20k steps):  4.47e9 / 4.27e9 / 4.26e9 c-u/s
+# desktop compositor held 10-30% GPU util during these; rates are lower bounds

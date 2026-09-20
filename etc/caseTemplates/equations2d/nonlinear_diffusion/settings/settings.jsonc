@@ -1,0 +1,8 @@
+{
+  "mesh": {"nx": 32, "ny": 32, "dx": 0.03125, "dy": 0.03125, "ghost": 1},
+  "constants": {"diffusion": 0.01, "reaction": 1.0},
+  "initialize": {"start_from": "initial_field", "dt": 0.001, "nSteps": 200},
+  "boundary_conditions": {"x_min": "Periodic", "x_max": "Periodic", "y_min": "Periodic", "y_max": "Periodic"},
+  "execution": {"backend": "cuda", "fusion": "auto", "report_expansion": false},
+  "output": {"print_interval": 100, "write_interval": 100, "format": "BINARY+VTI"}
+}

@@ -1,0 +1,9 @@
+add_executable(module_boundary test_boundary.cu)
+target_link_libraries(module_boundary PRIVATE phix)
+set_target_properties(module_boundary PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_boundary COMMAND module_boundary)
+
+add_executable(module_bc_batch test_bc_batch.cu)
+target_link_libraries(module_bc_batch PRIVATE phix)
+set_target_properties(module_bc_batch PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_bc_batch COMMAND module_bc_batch)

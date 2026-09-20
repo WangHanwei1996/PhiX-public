@@ -1,0 +1,7 @@
+{
+  "schema": 2,
+  "policy": "strict",
+  "ddt": {"default": "none", "ddt(c)": "EULER"},
+  "laplacian": {"default": "none", "lap(c)": "CD2"},
+  "gradient": {"default": "none", "grad(c,x)": "CD2", "grad(c,y)": "CD2"}
+}

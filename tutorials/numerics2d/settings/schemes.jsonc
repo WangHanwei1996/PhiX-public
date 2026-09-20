@@ -1,0 +1,9 @@
+{
+  "schema": 2,
+  "policy": "strict",
+  "ddt": {"default": "EULER"},
+  "laplacian": {"lap(c)": "CD2"},
+  "interpolation": {"default": "LinearGhost"},
+  "snGrad": {"default": "CD2"},
+  "fluxDiv": {"default": "Difference"}
+}

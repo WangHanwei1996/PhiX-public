@@ -1,0 +1,4 @@
+add_executable(module_meshmap test_meshmap.cu)
+target_link_libraries(module_meshmap PRIVATE phix)
+set_target_properties(module_meshmap PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_meshmap COMMAND module_meshmap)

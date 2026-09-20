@@ -1,0 +1,29 @@
+add_executable(module_numerics test_numerics.cu)
+target_link_libraries(module_numerics PRIVATE phix)
+set_target_properties(module_numerics PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_numerics COMMAND module_numerics)
+
+add_executable(module_numerics_extensions test_extensions.cu)
+target_link_libraries(module_numerics_extensions PRIVATE phix)
+set_target_properties(module_numerics_extensions PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_numerics_extensions COMMAND module_numerics_extensions)
+
+add_executable(module_symbolic test_symbolic.cu)
+target_link_libraries(module_symbolic PRIVATE phix)
+set_target_properties(module_symbolic PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_symbolic COMMAND module_symbolic)
+
+add_executable(module_symbolic_system test_symbolic_system.cu)
+target_link_libraries(module_symbolic_system PRIVATE phix)
+set_target_properties(module_symbolic_system PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_symbolic_system COMMAND module_symbolic_system)
+
+add_executable(module_composite test_composite.cu)
+target_link_libraries(module_composite PRIVATE phix)
+set_target_properties(module_composite PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_composite COMMAND module_composite)
+
+add_executable(module_normal_vector test_normal_vector.cu)
+target_link_libraries(module_normal_vector PRIVATE phix)
+set_target_properties(module_normal_vector PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_normal_vector COMMAND module_normal_vector)

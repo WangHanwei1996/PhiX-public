@@ -1,0 +1,34 @@
+# ===========================================================================
+# PhiX environment setup
+#
+#   source /path/to/PhiX/etc/bashrc
+#
+# Sets
+#   PHIX_DIR   project root (the directory above this file)
+#   PATH       every directory under applications/ and tutorials/ (in the
+#              source tree and in any build*/ tree) that holds an executable
+#              is prepended, so solvers, tutorials and tools can be started by
+#              name from any case directory, e.g.
+#                  cd myCase && CH_2D settings/settings.jsonc
+# ===========================================================================
+
+export PHIX_DIR
+PHIX_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+_phix_setup_path() {
+    local added="" exe dir
+    while IFS= read -r exe; do
+        dir="$(dirname "$exe")"
+        case ":${added}:${PATH}:" in
+            *":${dir}:"*) continue ;;
+        esac
+        added="${added:+${added}:}${dir}"
+    done < <(find "$PHIX_DIR"/applications "$PHIX_DIR"/tutorials \
+                  "$PHIX_DIR"/build*/applications "$PHIX_DIR"/build*/tutorials \
+                  -type f -executable -print 2>/dev/null | sort)
+    [ -n "$added" ] && export PATH="${added}:${PATH}"
+}
+_phix_setup_path
+unset -f _phix_setup_path
+
+echo "PhiX sourced: PHIX_DIR=$PHIX_DIR"

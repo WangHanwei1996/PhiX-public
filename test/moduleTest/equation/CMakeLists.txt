@@ -1,0 +1,43 @@
+add_executable(module_expr test_expr.cpp)
+target_link_libraries(module_expr PRIVATE phix)
+add_test(NAME module_expr COMMAND module_expr)
+
+add_executable(module_evalplan test_evalplan.cu)
+target_link_libraries(module_evalplan PRIVATE phix)
+set_target_properties(module_evalplan PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_evalplan COMMAND module_evalplan)
+
+add_executable(module_bc_injection test_bc_injection.cu)
+target_link_libraries(module_bc_injection PRIVATE phix)
+set_target_properties(module_bc_injection PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_bc_injection COMMAND module_bc_injection)
+
+add_executable(module_stream test_stream.cu)
+target_link_libraries(module_stream PRIVATE phix)
+set_target_properties(module_stream PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_stream COMMAND module_stream)
+
+add_executable(module_pw4 test_pw4.cu)
+target_link_libraries(module_pw4 PRIVATE phix)
+set_target_properties(module_pw4 PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_pw4 COMMAND module_pw4)
+
+add_executable(module_fused test_fused.cu)
+target_link_libraries(module_fused PRIVATE phix)
+set_target_properties(module_fused PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_fused COMMAND module_fused)
+
+add_executable(module_vector_equation test_vector_equation.cu)
+target_link_libraries(module_vector_equation PRIVATE phix)
+set_target_properties(module_vector_equation PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_vector_equation COMMAND module_vector_equation)
+
+add_executable(module_adaptive_dt test_adaptive_dt.cu)
+target_link_libraries(module_adaptive_dt PRIVATE phix)
+set_target_properties(module_adaptive_dt PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_adaptive_dt COMMAND module_adaptive_dt)
+
+add_executable(module_pwN_inplace test_pwN_inplace.cu)
+target_link_libraries(module_pwN_inplace PRIVATE phix)
+set_target_properties(module_pwN_inplace PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_pwN_inplace COMMAND module_pwN_inplace)

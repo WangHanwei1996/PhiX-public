@@ -1,0 +1,4 @@
+add_executable(module_diagnostics test_diagnostics.cu)
+target_link_libraries(module_diagnostics PRIVATE phix)
+set_target_properties(module_diagnostics PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_test(NAME module_diagnostics COMMAND module_diagnostics)
